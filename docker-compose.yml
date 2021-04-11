@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:12.4
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-dataset:/home/nandagopal/kootal_app_local/pgdata
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+#  kootal_app:
+#    build:
+#      network: host
+#      context: ./
+#      dockerfile: app.Dockerfile
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      DEBUG: "true"
+#      NUM_WORKERS: "2"
+
+volumes:
+  pg-dataset:
+  pg-admin-dataset:
