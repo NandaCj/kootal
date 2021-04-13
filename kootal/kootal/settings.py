@@ -25,7 +25,7 @@ SECRET_KEY = 'e2h7%mo@m@z8cw-%p=qckuw2x1!(id-q6&1r$5p@^z6ar3xc=$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'kootal'
 ]
 
 MIDDLEWARE = [
@@ -74,10 +75,23 @@ WSGI_APPLICATION = 'kootal.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': "kootal_db",
+
+        'USER': "postgres",
+
+        'PASSWORD': "postgres",
+
+        'HOST': '127.0.0.1',
+
+        'PORT': '5432',
+
     }
+
 }
 
 
