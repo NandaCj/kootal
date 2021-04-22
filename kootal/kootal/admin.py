@@ -5,6 +5,7 @@ from django.db.models import Sum
 class BankDetailsAdmin(admin.ModelAdmin):
     list_display = ('account_holder_name', 'account_number', 'bank_name', 'ifsc_code', 'branch')
     list_filter = ("update_date",)
+    search_fields = ("account_holder_name",)
 
     class Meta:
         exclude = ['create_date', 'update_date']
@@ -36,12 +37,15 @@ class OrderDetailsInline(admin.TabularInline):
     model = OrderDetails
     readonly_fields = ('total', )
 
-class OrderDetailsAdmin(admin.ModelAdmin):
-    inlines = (OrderDetailsInline, )
-    list_display = ('customer', 'order_type', 'total_order_amount', 'update_date')
-    # list_display = ('get_customer', 'get_order_type', 'get_update_date')
-    # list_display_links = ('get_customer', )
+class TransactionInline(admin.TabularInline):
+    model = Transaction
+    fields = ('bill_number', 'amount_received', 'amount_sent', 'create_date')
+    readonly_fields = ('create_date',)
 
+class OrderDetailsAdmin(admin.ModelAdmin):
+    inlines = (OrderDetailsInline, TransactionInline)
+    list_display = ('customer', 'order_type', 'total_order_amount', 'pending_amount', 'update_date', )
+    search_fields = ("customer__customer",)
     list_filter = ("update_date",)
 
     def get_customer(self, obj):
@@ -56,6 +60,12 @@ class OrderDetailsAdmin(admin.ModelAdmin):
     def total_order_amount(self, obj):
         return OrderDetails.objects.filter(orders = obj.id).aggregate(Sum('total')).get('total__sum')
 
+    def pending_amount(self, obj):
+        total_amount = OrderDetails.objects.filter(orders = obj.id).aggregate(Sum('total')).get('total__sum')
+        amount_received = Transaction.objects.filter(orders = obj.id).aggregate(Sum('amount_received')).get('amount_received__sum')
+        amount_received = 0 if amount_received is None else amount_received
+
+        return total_amount - amount_received
 
 admin.site.register(BankDetails, BankDetailsAdmin)
 admin.site.register(Customer, CustomerAdmin)

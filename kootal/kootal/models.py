@@ -117,14 +117,13 @@ class Product(models.Model):
         return self.product_name
 
 class Transaction(models.Model):
-    order = models.ForeignKey(Orders, models.DO_NOTHING, db_column='order', blank=True, null=True)
+    orders = models.ForeignKey(Orders, models.DO_NOTHING, db_column='order', blank=True, null=True)
     bill_number = models.CharField(max_length=255, null=False , blank=True)
-    amount_received = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    amount_sent = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    amount_received = models.DecimalField(max_digits=65535, decimal_places=2, blank=True, null=True)
+    amount_sent = models.DecimalField(max_digits=65535, decimal_places=2, blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'transaction'
-

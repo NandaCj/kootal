@@ -11,16 +11,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
-#  kootal_app:
-#    build:
-#      network: host
-#      context: ./
-#      dockerfile: app.Dockerfile
-#    ports:
-#      - "8000:8000"
-#    environment:
-#      DEBUG: "true"
-#      NUM_WORKERS: "2"
+  kootal-app :
+    image : nandhacj/kootal-billing-app:latest
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONUNBUFFERED : 1
+    depends_on:
+      - postgres
+
 
 volumes:
   pg-dataset:

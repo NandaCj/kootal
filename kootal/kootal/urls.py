@@ -19,3 +19,10 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+admin.site.site_header = """
+Kootal Billing App | 
+MK Cottons 
+"""
+admin.site.site_title = "Kootal Billing App"
+admin.site.index_title = "Kootal"
