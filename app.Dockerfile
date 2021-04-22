@@ -12,6 +12,6 @@ COPY kootal kootal_app
 
 EXPOSE 8000
 
-RUN cd kootal_app
+RUN python kootal_app/manage.py collectstatic --noinput
 
 ENTRYPOINT ["python", "kootal_app/manage.py", "runserver", "0.0.0.0:8000"]
